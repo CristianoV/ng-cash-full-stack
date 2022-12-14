@@ -17,23 +17,31 @@ class App {
     this.config();
   }
 
-  private config():void {
+  private config(): void {
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.get('/', (req, res) => res.json({ status: 'ok' }));
     this.app.use('/login', Login);
     this.app.use('/register', Register);
     this.app.use('/account', Account);
     this.app.use('/transaction', Transaction);
-    this.app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-      if (err) {
-        return res.status(400).json({ error: err.message });
+    this.app.use(
+      (
+        err: Error,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+      ) => {
+        if (err) {
+          return res.status(400).json({ error: err.message });
+        }
+        next();
       }
-      next();
-    });
-    this.app.use(NotFound)
+    );
+    this.app.use(NotFound);
   }
 
-  public start(PORT: string | number):void {
+  public start(PORT: string | number): void {
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
 }

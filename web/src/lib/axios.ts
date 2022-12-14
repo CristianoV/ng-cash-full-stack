@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const fetchFromApi = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'https://ng-cash-full-stack-production.up.railway.app/',
 });
